@@ -100,7 +100,7 @@ const Timer = ({ type }: any) => {
                       <span className="stroke-pink-300 px-1 font-bold text-pink-300 line-through">
                         $35
                       </span>
-                      <span className="text-pink-100">$25</span>
+                      <span className="text-pink-100">$15</span>
                     </button>
                   </a>
                 </div>
@@ -122,7 +122,7 @@ const Timer = ({ type }: any) => {
                     />
                   </svg>
                 </span>
-                <span>
+                {/* <span>
                   <svg
                     width="16"
                     height="16"
@@ -142,7 +142,7 @@ const Timer = ({ type }: any) => {
                       </clipPath>
                     </defs>
                   </svg>
-                </span>
+                </span> */}
               </div>
             </div>
           )}
@@ -181,7 +181,7 @@ const Home: NextPage = () => {
           <p className="max-w-xl text-2xl font-thin text-gray-400">
             A simple app to edit screenshots and share quickly.
           </p>
-          <button
+          {/* <button
             className="mt-5 flex items-center gap-2 align-middle text-xl hover:text-gray-400"
             onClick={() => {
               setHideVideo(false)
@@ -209,7 +209,7 @@ const Home: NextPage = () => {
               />
             </svg>
             Watch now
-          </button>
+          </button> */}
           <Timer type={'horizontal'} />
           {!hideVideo && (
             <div className="fixed top-0 z-50 flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black bg-opacity-70 align-middle">
@@ -416,7 +416,7 @@ const Home: NextPage = () => {
             </span>
             <span className="text-xl">Control output</span>
             <p className="font-thin leading-loose">
-              Save the video as png or Jpg or copy to clip board for easy
+              Save the image as png or Jpg or copy to clip board for easy
               access.
             </p>
           </div>
@@ -548,7 +548,7 @@ const Home: NextPage = () => {
         <h2 className="mt-10 text-center text-3xl">Download</h2>
         <div className="mt-5 flex items-center justify-center gap-2">
           {/* <Timer type="horizontal" /> */}
-          <a href="https://github.com/achuthhadnoor/www/releases/download/0.0.1/capshot-0.0.10.dmg">
+          {/* <a href="https://github.com/achuthhadnoor/www/releases/download/0.0.1/capshot-0.0.10.dmg">
             <div className="flex flex-col">
               <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-2 py-1 align-middle text-black">
                 <span className="flex">
@@ -578,8 +578,8 @@ const Home: NextPage = () => {
                 macOS 10.13 or higher
               </div>
             </div>
-          </a>
-          <a href="https://github.com/achuthhadnoor/www/releases/download/0.0.1/capshot-0.0.10-arm64.dmg">
+          </a> */}
+          <a href="https://github.com/achuthhadnoor/capshot_www/releases/download/0.0.1/capshot-0.0.10-arm64-mac.zip">
             <div className="flex flex-col">
               <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-2 py-1 align-middle text-black">
                 <span className="flex">
