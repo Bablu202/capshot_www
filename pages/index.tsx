@@ -1,14 +1,13 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createRef } from 'react'
 import Container from '../components/Container'
-import Header from './../components/header'
 
 const Timer = ({ type }: any) => {
   const [timer, setTimer] = useState({ days: 0, hr: 0, min: 0, sec: 0 })
   const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
-    const countDownDate = new Date('December 1, 2022 15:37:25').getTime()
+    const countDownDate = new Date('January 1, 2023 15:37:25').getTime()
     // Update the count down every 1 second
     var x = setInterval(function () {
       // Get today's date and time
@@ -612,6 +611,12 @@ const Home: NextPage = () => {
           </a>
         </div>
       </section>
+      <section className="relative px-4 sm:px-20">
+        <h2 className="mt-10 text-center text-3xl">Pricing</h2>
+        <div className="mt-5 flex gap-2 rounded-md border border-neutral-800 p-2">
+          We price it at a great time
+        </div>
+      </section>
     </Container>
   )
 }
@@ -660,4 +665,12 @@ export default Home
 
             </div>
           </div> */
+}
+
+{
+  //   Before we can complete this submission, we need some further clarification, please.
+  // The submission shows an original price of $5. From our research, there is no pricing table on your website, and appears to be a free offering.
+  // To clarify, the original price should be the best offer currently available for the product or service, and your AppSumo sale price must represent the lowest available price for this product.
+  // Also, would you mind using your corporate email with the company domain for this submission instead of Gmail? This is to ensure that this is submitted by the owner or an authorized person to list the product.
+  // Please contact partners@appsumo.com to clarify these concerns. Looking forward to your response!
 }
