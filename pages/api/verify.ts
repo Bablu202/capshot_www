@@ -21,9 +21,10 @@ const googleSheetID = '1bDR2wwvaL8sbKmV_qjgdAKHnRCr2baJ3qkGOLbE7eVg'
 const sheet = new GoogleSpreadsheet(googleSheetID)
 
 const codes = [
-  'TESTT-BABLU-REDDY-H',
   'TESTT-BABLU-REDDY-1',
   'TESTT-BABLU-REDDY-2',
+  'TESTT-BABLU-REDDY-3',
+  'TESTT-BABLU-REDDY-4',
   'XKj4-38qX-f3YK-j2xg',
   'SJyY-XQD3-3mvm-FsMi',
   'UhT2-WbAm-17xM-x7kO',
@@ -20089,31 +20090,61 @@ export default async function handler(
       throw error
     }
 
-    if (codes.includes(code)) {
-      // Code is valid
-      if (existingUser) {
-        // If user exists, check if activated is true
-        if (existingUser.activated) {
-          console.log('User is already activated')
+    if (existingUser) {
+      if (existingUser.activated) {
+        // User is already activated
+        console.log('User is already activated')
+
+        // Check if given email and code are in the same row
+        if (existingUser.code === code) {
+          console.log('Email and code in same row. Success.')
           return res
             .status(200)
             .json({ message: 'success', user: existingUser })
         } else {
-          // Update existing user with activated = true
-          const { data, error } = await supabase
-            .from('users')
-            .update({ code, os, activated: true })
-            .eq('email', email)
-            .single()
-
-          if (error) {
-            throw error
-          }
-
-          console.log('User activated:', data)
-          return res.status(200).json({ message: 'activated', user: data })
+          console.log('Email and code are not in the same row.')
+          return res.status(400).json({ message: 'Invalid code provided' })
         }
+      } else if (codes.includes(code)) {
+        // Code is valid, check if code is already used by another user
+        let { data: existingCodeUser, error: codeError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('code', code)
+          .single()
+
+        if (codeError && codeError.code !== 'PGRST116') {
+          // Error code for row not found
+          throw codeError
+        }
+
+        if (existingCodeUser) {
+          console.log('Code already used by another user.')
+          return res
+            .status(400)
+            .json({ message: 'Code already used by another user' })
+        }
+
+        // Update existing user with activated = true
+        const { data, error } = await supabase
+          .from('users')
+          .update({ code, os, activated: true })
+          .eq('email', email)
+          .single()
+
+        if (error) {
+          throw error
+        }
+
+        console.log('User activated:', data)
+        return res.status(200).json({ message: 'activated', user: data })
       } else {
+        console.log('Invalid code provided.')
+        return res.status(400).json({ message: 'Invalid code provided' })
+      }
+    } else {
+      // If email does not exist in the users table
+      if (codes.includes(code)) {
         // Insert new user with activated = true
         const { data, error } = await supabase
           .from('users')
@@ -20126,11 +20157,8 @@ export default async function handler(
 
         console.log('New user activated:', data)
         return res.status(200).json({ message: 'activated', user: data })
-      }
-    } else {
-      // Code is invalid and email does not exist
-      if (!existingUser) {
-        // Insert new user with invalid code
+      } else {
+        // Insert new user with code = null and activated = false
         const { data, error } = await supabase
           .from('users')
           .insert([{ email, code: null, os, activated: false }])
@@ -20140,13 +20168,11 @@ export default async function handler(
           throw error
         }
 
-        console.log('New user inserted with invalid code:', data)
+        console.log(
+          'New user inserted with code = null and activated = false:',
+          data
+        )
         return res.status(200).json({ message: 'new user', user: data })
-      } else {
-        console.log('Email exists but code is invalid.')
-        return res
-          .status(200)
-          .json({ message: 'please get the Key', user: existingUser })
       }
     }
   } catch (error: any) {
